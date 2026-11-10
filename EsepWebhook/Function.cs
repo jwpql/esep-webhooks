@@ -9,19 +9,7 @@ namespace EsepWebhook;
 
 public class Function
 {
-    
-    /// <summary>
-    /// A simple function that takes a string and does a ToUpper
-    /// </summary>
-    /// <param name="input">The event for the Lambda function handler to process.</param>
-    /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
-    /// <returns></returns>
-    // public string FunctionHandler(string input, ILambdaContext context)
-    // {
-    //     return input.ToUpper();
-    // }
 
-    
     public string FunctionHandler(object input, ILambdaContext context)
     {
         context.Logger.LogLine($"Received: {input}");
@@ -31,7 +19,7 @@ public class Function
         var client = new HttpClient();
         var webRequest = new HttpRequestMessage(HttpMethod.Post, Environment.GetEnvironmentVariable("SLACK_URL"))
         {
-        Content = new StringContent(payload, Encoding.UTF8, "application/json")
+            Content = new StringContent(payload, Encoding.UTF8, "application/json")
         };
         var response = client.Send(webRequest);
         using var reader = new StreamReader(response.Content.ReadAsStream());
